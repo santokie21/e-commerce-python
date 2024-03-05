@@ -1,11 +1,15 @@
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 from utils import detect_objects_in_image
+from flask_cors import CORS, cross_origin
 import os
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/upload-image', methods=['POST'])
+@cross_origin()
 def upload_image():
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
